@@ -39,6 +39,8 @@ public class SecurityController {
     public String registration(@ModelAttribute RegistrationRequestDto requestDto) {
         //Boolean result  = securityService.registration(firstName, secondName, age, email, gender, telephoneNumber, login, password);
         //model.addAttribute("result", result); // return String
+       // Model model; // для передачи параметров на страницу
+        // ModelAndView model // для передачи параметров на страницу расширеный
        // model.addObject("result", result); //return ModelAndView
        // model.setViewName("user");
         System.out.println("Registration request: " + requestDto);
