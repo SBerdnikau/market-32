@@ -2,6 +2,7 @@ package com.teachmeskills.market_32.repository;
 
 import com.teachmeskills.market_32.config.DatabaseService;
 import com.teachmeskills.market_32.model.Role;
+import com.teachmeskills.market_32.model.dto.RegistrationRequestDto;
 import com.teachmeskills.market_32.utils.SQLQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,18 +19,18 @@ public class SecurityRepository {
         this.databaseService = databaseService;
     }
 
-    public Boolean registration(String firstName, String secondName, Integer age, String email, String gender, String telephoneNumber,  String login, String password) throws SQLException {
+    public Boolean registration(RegistrationRequestDto registrationRequestDto) throws SQLException {
         Connection connection = databaseService.getConnection();
 
         try {
             connection.setAutoCommit(false);
             PreparedStatement createUserStatement = connection.prepareStatement(SQLQuery.CREATE_USER, Statement.RETURN_GENERATED_KEYS);
-            createUserStatement.setString(1, firstName);
-            createUserStatement.setString(2, secondName);
-            createUserStatement.setInt(3, age);
-            createUserStatement.setString(4, email);
-            createUserStatement.setString(5, gender);
-            createUserStatement.setString(6, telephoneNumber);
+            createUserStatement.setString(1, registrationRequestDto.getFirstName());
+            createUserStatement.setString(2, registrationRequestDto.getSecondName());
+            createUserStatement.setInt(3, registrationRequestDto.getAge());
+            createUserStatement.setString(4, registrationRequestDto.getEmail());
+            createUserStatement.setString(5, registrationRequestDto.getGender());
+            createUserStatement.setString(6, registrationRequestDto.getTelephoneNumber());
             createUserStatement.setTimestamp(7, new Timestamp(System.currentTimeMillis()));
             createUserStatement.setBoolean(8, false);
             createUserStatement.executeUpdate();
@@ -41,8 +42,8 @@ public class SecurityRepository {
             }
 
             PreparedStatement createSecurityStatement = connection.prepareStatement(SQLQuery.CREATE_SECURITY);
-            createSecurityStatement.setString(1, login);
-            createSecurityStatement.setString(2, password);
+            createSecurityStatement.setString(1, registrationRequestDto.getLogin());
+            createSecurityStatement.setString(2, registrationRequestDto.getPassword());
             createSecurityStatement.setString(3, Role.USER.toString());
             createSecurityStatement.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             createSecurityStatement.setLong(5, userId);

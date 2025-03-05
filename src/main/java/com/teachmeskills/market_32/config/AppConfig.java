@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 //WebMvcConfigurer - для Interceptor -> addInterceptors(InterceptorRegistry registry)
-@EnableWebMvc // включаем Interceptor
+@EnableWebMvc // включаем Interceptor и Validator для DTO
 @ComponentScan("com.teachmeskills.market_32")
 @Configuration
 public class AppConfig implements WebMvcConfigurer {

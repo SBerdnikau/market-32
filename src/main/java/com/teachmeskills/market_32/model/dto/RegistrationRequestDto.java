@@ -25,6 +25,7 @@ public class RegistrationRequestDto {
     @Size(min = 2, max = 20)
     private String secondName;
 
+    @Positive
     @Min(18)
     @Max(120)
     private Integer age;
