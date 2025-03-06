@@ -45,6 +45,7 @@ public class SecurityController {
        // model.setViewName("user");
 
         if (bindingResult.hasErrors()) {
+            //TODO нужна проверка что в базе нет пользователя с таким телефоном и почтой
             System.out.println(bindingResult.getAllErrors());
             return "registration";
         }
