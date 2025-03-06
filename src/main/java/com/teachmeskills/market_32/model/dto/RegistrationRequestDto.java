@@ -1,5 +1,6 @@
 package com.teachmeskills.market_32.model.dto;
 
+import com.teachmeskills.market_32.annotation.CustomAge;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,9 +26,7 @@ public class RegistrationRequestDto {
     @Size(min = 2, max = 20)
     private String secondName;
 
-    @Positive
-    @Min(18)
-    @Max(120)
+   @CustomAge //своя анотация для валидации
     private Integer age;
 
     @Email

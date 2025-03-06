@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Documented // могут пользоваться другие
 @Constraint(validatedBy = {AgeValidator.class}) //хранит класс где есть метод с проверкой
 public @interface CustomAge {
-    String message() default "Age is invalid!";
+    String message() default "Age must be between 18 and 120";
 
     Class<?>[] groups() default {};
 

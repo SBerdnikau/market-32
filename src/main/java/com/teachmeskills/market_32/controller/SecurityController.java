@@ -1,13 +1,19 @@
 package com.teachmeskills.market_32.controller;
 
+import com.teachmeskills.market_32.exception.AgeException;
 import com.teachmeskills.market_32.model.dto.RegistrationRequestDto;
 import com.teachmeskills.market_32.servise.SecurityService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Objects;
 
 @Controller
 @RequestMapping("security") // крефикс к URI пятям контроллера - security/registration
@@ -45,7 +51,11 @@ public class SecurityController {
        // model.setViewName("user");
 
         if (bindingResult.hasErrors()) {
-            //TODO нужна проверка что в базе нет пользователя с таким телефоном и почтой
+            for (ObjectError error : bindingResult.getAllErrors()) { //проверка на ошибки
+               if (Objects.equals(error.getCode(), "CustomAge")){
+                   throw new AgeException(error.getDefaultMessage());
+               }
+            }
             System.out.println(bindingResult.getAllErrors());
             return "registration";
         }
@@ -53,5 +63,16 @@ public class SecurityController {
         Boolean result  = securityService.registration(requestDto);
         return "user";
     }
+
+    //1 вариат обработчика ошибок внутри контроллера - неочень вариант
+    //обработчик для ошибки для поля Age начиная с контроллера и заавтовареных бинах
+//    @ExceptionHandler(value = AgeException.class) // привязывает класс исключение к обработчику
+//    public ModelAndView securityExceptionHandler(AgeException error){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.addObject("message", error.getMessage());
+//        modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+//        modelAndView.setViewName("error");
+//        return modelAndView;
+//    }
 
 }
